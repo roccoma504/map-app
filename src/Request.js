@@ -1,5 +1,8 @@
 // Package for HTTP request to get nation data
-
+import './fixed-data-table.css'
+const {
+    Table, Column, Cell
+} = require('fixed-data-table');
 
 // Constants
 // Define the base URL for flex when building enpoints.
@@ -78,6 +81,36 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
+
+        drawTable(nationInfoArray)
     }
+
 }
 getNationInfo(baseURL + endpoint)
+
+function drawTable(data) {
+    var x = document.createElement("TABLE");
+    x.setAttribute("id", "myTable");
+    document.body.appendChild(x);
+    for (var i = 0; i < data.length; i++) {
+        drawRow(data[i]);
+    }
+}
+
+function drawRow(rowData) {
+
+    var table = document.getElementById("myTable");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+
+    cell1.innerHTML = rowData["name"];
+    cell2.innerHTML = rowData["population"];
+    cell3.innerHTML = rowData["area"];
+    cell4.innerHTML = rowData["density"];
+
+
+
+}
