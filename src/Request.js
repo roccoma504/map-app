@@ -1,14 +1,15 @@
 // Package for HTTP request to get nation data
 
 
+// Constants
 // Define the base URL for flex when building enpoints.
-const baseURL = "https://restcountries.eu/rest/v1/all"
+const baseURL = "https://restcountries.eu/rest/v1/"
 
-// Test region
-const africaRegion = ""
+// Variables
+// Expandable endpoint variable.
+var endpoint = "region/africa"
 
-
-
+// Functions
 // Generic async request found @ w3school.
 function getNationInfo(url) {
     var xmlHttp = new XMLHttpRequest();
@@ -21,7 +22,8 @@ function getNationInfo(url) {
                 // console.log(xmlHttp.responseText);
                 parseJSON(xmlHttp.responseText)
             } else { //There was some issue
-                window.alert("HTTP error: " + xmlHttp.status + ". Try reloading the page.")
+                window.alert("HTTP error: " + xmlHttp.status +
+                    ". Try reloading the page.")
                 console.log()
             }
         }
@@ -31,21 +33,48 @@ function getNationInfo(url) {
     xmlHttp.send(null);
 }
 
-// Wrapper for JSON parsing
+// Wrapper for JSON parsing. We should only get here if we got a valid response
+// from the server.
 function parseJSON(nationResponse) {
-    var parsedJSON = JSON.parse(nationResponse)
-    console.log(JSON.parse(nationResponse))
+    // Parse the retrieved message.
+    const parsedJSON = JSON.parse(nationResponse)
 
-    console.log(parsedJSON[0])
-    console.log(parsedJSON[0].population)
+    //# TODO REmove
+    /* const preface = "Population of "
 
-    var preface = "population: "
-    var nation;
-    for (nation in parsedJSON) {
-        //console.log(JSON.parse(nation))
-        //console.log(nation)
-        //console.log(preface + nation.population);
+    for (var i = 0; i < parsedJSON.length; i++) {
+        console.log(preface + parsedJSON[i].name + " " + parsedJSON[i].population)
+    }
+    */
+
+    // Build out data modal for sorting and display.
+    buildModal(parsedJSON)
+
+    // Builds the data modal based on the required data.
+    function buildModal(parsedResponse) {
+        /* Requirements state we need the following data
+        - Name
+        - alpha2Code
+        - Capital
+        - Region
+        - Population
+        - Area
+        - Number of timezones
+        - List of languages spoken */
+        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages"]
+
+        var nationInfoArray = [];
+
+        // Build our modal from the retrieved data and the required info.
+        for (var i = 0; i < parsedJSON.length; i++) {
+            var nationInfo = {}
+            for (var infoKey = 0; i < keyArray.length; infoKey++) {
+                nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
+            }
+            nationInfoArray.push(nationInfo)
+        }
+        console.log(nationInfoArray)
     }
 }
 
-getNationInfo(baseURL + africaRegion)
+getNationInfo(baseURL + endpoint)
