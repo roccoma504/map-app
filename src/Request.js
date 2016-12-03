@@ -2,10 +2,11 @@
 
 
 // Define the base URL for flex when building enpoints.
-const baseURL = "https://restcountries.eu/rest/v1/"
+const baseURL = "https://restcountries.eu/rest/v1/all"
 
 // Test region
-const africaRegion = "region/africa"
+const africaRegion = ""
+
 
 
 // Generic async request found @ w3school.
@@ -17,7 +18,8 @@ function getNationInfo(url) {
         if (xmlHttp.readyState === 4) {
             // 200 - Good request
             if (xmlHttp.status === 200) {
-                console.log(xmlHttp.responseText);
+                // console.log(xmlHttp.responseText);
+                parseJSON(xmlHttp.responseText)
             } else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status + ". Try reloading the page.")
                 console.log()
@@ -27,6 +29,23 @@ function getNationInfo(url) {
 
     xmlHttp.open("GET", url, true);
     xmlHttp.send(null);
+}
+
+// Wrapper for JSON parsing
+function parseJSON(nationResponse) {
+    var parsedJSON = JSON.parse(nationResponse)
+    console.log(JSON.parse(nationResponse))
+
+    console.log(parsedJSON[0])
+    console.log(parsedJSON[0].population)
+
+    var preface = "population: "
+    var nation;
+    for (nation in parsedJSON) {
+        //console.log(JSON.parse(nation))
+        //console.log(nation)
+        //console.log(preface + nation.population);
+    }
 }
 
 getNationInfo(baseURL + africaRegion)
