@@ -75,9 +75,17 @@ function parseJSON(nationResponse) {
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
             }
-            const density = nationInfo["population"] / nationInfo["area"]
 
-            nationInfo["density"] = density
+            // Check for area validity. It is assumed all countries
+            // have at least a population of 1 so we don't check it.
+            if (nationInfo["area"] === null) {
+                nationInfo["area"] = "N/A"
+                nationInfo["density"] = "N/A"
+            } else {
+                // Calculate the density rounded down which is the
+                // general convention.
+                nationInfo["density"] = Math.floor(nationInfo["population"] / nationInfo["area"])
+            }
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
@@ -91,16 +99,17 @@ getNationInfo(baseURL + endpoint)
 function drawTable(data) {
     var x = document.createElement("TABLE");
     x.setAttribute("id", "myTable");
+    x.setAttribute("border", "1px solid black")
     document.body.appendChild(x);
     for (var i = 0; i < data.length; i++) {
-        drawRow(data[i]);
+        drawRow(data[i], i);
     }
 }
 
-function drawRow(rowData) {
+function drawRow(rowData, position) {
 
     var table = document.getElementById("myTable");
-    var row = table.insertRow(0);
+    var row = table.insertRow(position);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
