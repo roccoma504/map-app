@@ -12,7 +12,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <p className="App-intro">
-          Making it happen.
+          test it happen.
         console.log("working")
         </p>
       </div>

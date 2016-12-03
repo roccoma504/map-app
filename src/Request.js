@@ -24,7 +24,6 @@ function getNationInfo(url) {
             } else { //There was some issue
                 window.alert("HTTP error: " + xmlHttp.status +
                     ". Try reloading the page.")
-                console.log()
             }
         }
     }
@@ -68,7 +67,7 @@ function parseJSON(nationResponse) {
         // Build our modal from the retrieved data and the required info.
         for (var i = 0; i < parsedJSON.length; i++) {
             var nationInfo = {}
-            for (var infoKey = 0; i < keyArray.length; infoKey++) {
+            for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
             }
             nationInfoArray.push(nationInfo)
@@ -76,5 +75,5 @@ function parseJSON(nationResponse) {
         console.log(nationInfoArray)
     }
 }
-
+console.log("Going")
 getNationInfo(baseURL + endpoint)
