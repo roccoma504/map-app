@@ -57,10 +57,12 @@ function parseJSON(nationResponse) {
         - Capital
         - Region
         - Population
-        - Area
+        - Area (Squared KM)
         - Number of timezones
-        - List of languages spoken */
-        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages"]
+        - List of languages spoken 
+        - We also need to figure out population density with is people per square km
+        */
+        const keyArray = ["name", "alpha2Code", "capital", "region", "population", "area", "timezones", "languages", "area"]
 
         var nationInfoArray = [];
 
@@ -70,10 +72,12 @@ function parseJSON(nationResponse) {
             for (var infoKey = 0; infoKey < keyArray.length; infoKey++) {
                 nationInfo[keyArray[infoKey]] = parsedResponse[i][keyArray[infoKey]]
             }
+            const density = nationInfo["population"] / nationInfo["area"]
+
+            nationInfo["density"] = density
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
     }
 }
-console.log("Going")
 getNationInfo(baseURL + endpoint)
