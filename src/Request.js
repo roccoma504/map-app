@@ -43,7 +43,6 @@ function parseJSON(nationResponse) {
 
     //# TODO REmove
     /* const preface = "Population of "
-
     for (var i = 0; i < parsedJSON.length; i++) {
         console.log(preface + parsedJSON[i].name + " " + parsedJSON[i].population)
     }
@@ -79,8 +78,8 @@ function parseJSON(nationResponse) {
             // Check for area validity. It is assumed all countries
             // have at least a population of 1 so we don't check it.
             if (nationInfo["area"] === null) {
-                nationInfo["area"] = "N/A"
-                nationInfo["density"] = "N/A"
+                nationInfo["area"] = 0
+                nationInfo["density"] = 0
             } else {
                 // Calculate the density rounded down which is the
                 // general convention.
@@ -89,6 +88,14 @@ function parseJSON(nationResponse) {
             nationInfoArray.push(nationInfo)
         }
         console.log(nationInfoArray)
+
+        nationInfoArray.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+        })
+
+        nationInfoArray.sort(function (a, b) {
+            return parseFloat(a.density) - parseFloat(b.density);
+        });
 
         drawTable(nationInfoArray)
     }
